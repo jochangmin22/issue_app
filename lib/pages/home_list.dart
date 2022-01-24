@@ -28,8 +28,11 @@ class RandomWords extends StatefulWidget {
 
 class _MyAppState extends State<RandomWords> with AutomaticKeepAliveClientMixin<RandomWords> {
 
+  late Future<Patent> patent;
+
   @override
   void initState() {
+    patent = PatentAPI.fetchPatent('');
     super.initState();
   }
 
@@ -42,7 +45,7 @@ class _MyAppState extends State<RandomWords> with AutomaticKeepAliveClientMixin<
     return Scaffold(
       body: Center(
         child: FutureBuilder <Patent>(
-          future: PatentAPI.fetchPatent(''),
+          future: patent,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               Patent? patent = snapshot.data;
@@ -124,7 +127,10 @@ class _MyAppState extends State<RandomWords> with AutomaticKeepAliveClientMixin<
               );
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
+            } else if (snapshot.hasData == false) {
+              return const Text('통합 조회중');
             }
+            
             return const CircularProgressIndicator();
           },
         ),

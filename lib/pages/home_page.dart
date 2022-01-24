@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/home_list.dart';
+import '../util/rest_api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +16,12 @@ class HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void _onSubmitted(String text) {
+    print("text:$text");
+    PatentAPI.fetchPatent('');
+  }
+
+
   @override
   Widget build(BuildContext context) {
     //final void Function(String) _onSubmitted;
@@ -27,11 +34,10 @@ class HomePageState extends State<HomePage> {
           title: Container(
             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            child: const Center(
+            child: Center(
               child: TextField(
-                  //controller: searchTextController,
-                  //onSubmitted: _onSubmitted,
-                  decoration: InputDecoration(
+                  onSubmitted: _onSubmitted,
+                  decoration: const InputDecoration(
                     hintText: '기업명/기술 키워드 검색',
                     hintStyle: TextStyle(color: Color(0xFF253682)),
                     prefixIcon: Icon(Icons.search, color: Color(0xFF253682)),
